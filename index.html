@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cloudinary SDK (ESM)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="main">
+    <div id="photoContainer">
+
+</div>
+
+<div class="btn-group">
+  <button class="btn" data-effect="text">Text</button>
+  <button class="btn" data-effect="square">Square</button>
+  <button class="btn" data-effect="toon">Cartoonify</button>
+  <button class="btn" data-effect="video">Video</button>
+  <button class="btn" data-effect="sepia">Sepia</button>
+  <button class="btn" data-effect="gray">Grayscale</button>
+  <button class="btn" data-effect="enhance">AI Enhance</button>
+  <button class="btn" data-action="reset">Reset</button>
+</div>
+  </div>
+  
+  
+<dialog id="textDialog">
+  <form method="dialog" class="text-dialog">
+    <h3>Text overlay</h3>
+    <label>
+      Text
+      <input id="dlgText" type="text" placeholder="Hello Cloudinary" />
+    </label>
+    <label>
+      Color
+      <input id="dlgColor" type="color" value="#ffffff" />
+    </label>
+    <menu>
+      <button id="dlgCancel" value="cancel" type="reset">Cancel</button>
+      <button id="dlgOK" value="ok">OK</button>
+    </menu>
+  </form>
+</dialog>
+
+  <!-- Load script as module -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
+
+

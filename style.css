@@ -1,0 +1,62 @@
+#photoContainer {
+  width: 500px;       /* JS updates to 333px when square is on */
+  height: 333px;      /* stays constant */
+  margin: 20px auto;
+  border: 4px solid #333;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease; /* smooth grow/shrink */
+}
+
+#photo {
+  height: 100%;
+  width: auto;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+#photo.hidden {
+  opacity: 0;   /* fades image only, border remains */
+}
+
+
+.btn-group {
+  display: flex;
+  justify-content: center; /* centers horizontally */
+  gap: 10px;               /* space between buttons */
+  margin-top: 15px;        /* spacing from image */
+}
+
+.btn {
+  padding: 8px 14px;
+  border: 1px solid #333;
+  background-color: lightblue;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn.active {
+  background: #333;
+  color: white;
+}
+
+
+#textDialog .text-dialog {
+  display: grid;
+  gap: 10px;
+  min-width: 280px;
+}
+#textDialog label {
+  display: grid;
+  gap: 6px;
+  font-size: 14px;
+}
+#textDialog menu {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
