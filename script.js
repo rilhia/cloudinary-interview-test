@@ -89,8 +89,9 @@ function resetToggles() {
  * Returns: { type: "image"|"video", url: string, width: number }
  */
 function buildAsset() {
-  const useSquare = state.square;
-  const frame = useSquare ? FRAME_SQUARE : FRAME_WIDE;
+
+  // Identify frame dimensions required
+  const frame = state.square ? FRAME_SQUARE : FRAME_WIDE;
 
   // We intentionally use image delivery for both cases:
   // - When `video` is ON: we request immediately transform the asset to be mp4
