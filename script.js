@@ -234,14 +234,15 @@ function openTextDialog(defaultText, defaultHex) {
 
 
 // ------------------------------
-// Button wiring (delegation)
+// Button wiring 
 // ------------------------------
-// Mutual exclusivity: Video cannot be combined with toon/sepia/gray (and vice versa).
+// Click listeners applied to all buttons. Note how state object is observed and updated.
+// Mutual exclusivity: Video cannot be combined with toon/sepia/gray/enhance (and vice versa) in Cloudinary
 $(".btn-group").addEventListener("click", async (e) => {
   const btn = e.target.closest(".btn");
   if (!btn) return;
 
-  const effectKey = btn.dataset.effect;  // e.g., "text", "video", "sepia"
+  const effectKey = btn.dataset.effect;  // e.g., "text", "video", "sepia", "enhance", etc
   const action    = btn.dataset.action;  // e.g., "reset"
 
   // Handle "Reset" button
@@ -273,7 +274,7 @@ $(".btn-group").addEventListener("click", async (e) => {
   setButtonActive(effectKey, next);
 
   // Enforce exclusivity:
-  // If Video was turned on, disable visual effects that clash with it.
+  // If Video was turned on, disable toon/sepia/gray/enhance.
   if (effectKey === "video" && next) {
     ["sepia", "toon", "gray", "enhance"].forEach((k) => {
       if (state[k]) {
@@ -283,7 +284,7 @@ $(".btn-group").addEventListener("click", async (e) => {
     });
   }
 
-  // If a visual effect was turned on, make sure Video is off.
+  // If toon/sepia/gray/enhance was turned on, make sure Video is off.
   if ((effectKey === "sepia" || effectKey === "toon" || effectKey === "gray" || effectKey === "enhance") && next) {
     if (state.video) {
       state.video = false;
