@@ -21,8 +21,7 @@ import { fill } from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@1.21.0/ac
 // ------------------------------
 // Configuration
 // ------------------------------
-// Change these to your own Cloudinary cloud and public ID.
-// NOTE: The code uses `${PUBLIC_ID}.mp4` when the Video toggle is on.
+// Change these to use with a different Cloudinary cloud and/or asset.
 const CLOUD_NAME = "demo";
 const PUBLIC_ID  = "sample";
 
@@ -99,11 +98,11 @@ function buildAsset() {
   const frame = useSquare ? FRAME_SQUARE : FRAME_WIDE;
 
   // We intentionally use image delivery for both cases:
-  // - When `video` is ON: we request `${PUBLIC_ID}.mp4` and add e_zoompan (Cloudinary serves MP4)
+  // - When `video` is ON: we request immediately transform the asset to be mp4
   // - When `video` is OFF: we request the plain image public_id
   const asset = state.video ? cld.image(PUBLIC_ID).addTransformation("f_mp4") : cld.image(PUBLIC_ID);
 
-  // Add a simple Ken Burns–style zoom/pan when showing video
+  // Adds a zoom and move to emulate a video by moving around the image
   if (state.video) {
     asset.addTransformation("e_zoompan:from_(g_auto;zoom_3.2);du_10;fps_30");
   }
@@ -111,16 +110,15 @@ function buildAsset() {
   // Always size to the frame to keep the border stable and the buttons from moving
   asset.resize(fill().width(frame.w).height(frame.h));
 
-  // Build transformation steps for image (order matters)
-  const steps = [];
+  // Build transformation chain for image (order matters)
+  const chain = [];
 
 
-  // Effects: keep ordering explicit. If multiple are toggled, we respect this order.
-  // (You can reorder these lines to change precedence.)
-  if (state.enhance) steps.push({ effect: "enhance" });
-  if (state.toon)  steps.push({ effect: "cartoonify:20" });
-  if (state.sepia) steps.push({ effect: "sepia" });     // often looks best after toon
-  if (state.gray)  steps.push({ effect: "grayscale" });
+  // Effects: keep ordering explicit. If multiple are toggled, this appears to be the best order.
+  if (state.enhance) chain.push({ effect: "enhance" });
+  if (state.toon)  chain.push({ effect: "cartoonify:20" });
+  if (state.sepia) chain.push({ effect: "sepia" });     
+  if (state.gray)  chain.push({ effect: "grayscale" });
 
 
   // Text overlay (applied at end so colours are not changed)
@@ -128,15 +126,15 @@ function buildAsset() {
     const encodedText  = encodeURIComponent(state.textContent);
     const overlayColor = toCloudinaryColor(state.textColor);
 
-    steps.push(
+    chain.push(
       { overlay: `text:Arial_34_bold:${encodedText}`, color: overlayColor },
       { flags: "layer_apply", gravity: "south", y: 10 }
     );
   }
 
-  // Apply the accumulated steps as one transformation string (SDK-backed)
-  if (steps.length) {
-    asset.addTransformation(transformationStringFromObject(steps));
+  // Apply the accumulated transformation chain as one transformation string (SDK-backed)
+  if (chain.length) {
+    asset.addTransformation(transformationStringFromObject(chain));
   }
 
   return {
