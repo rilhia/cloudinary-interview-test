@@ -1,9 +1,12 @@
 /**
- * Cloudinary demo controls (image/video + transformations)
- * - Uses Cloudinary JS SDK (ESM from jsDelivr)
- * - Switches between <img> and <video> while keeping a bordered container visible
- * - Allows toggling square crop, text overlay (with color picker), toon, sepia, grayscale
- * - Adds a simple zoom-pan “video” by using the same public_id with .mp4 + e_zoompan
+ * Cloudinary Interview Test 
+ * ------------------------
+ * - Covers the tasks of creating "Text overlay", "Crop to square" and "Cartoonify" features to be triggered by buttons.
+ * - Uses @cloudinary/url-gen to build transformation URLs from a simple state object.
+ * - Enables a solid "look and feel" to deal with image resizing for "Crop to square"
+ * - Added a feature to manually set the text to overlay and set it colour
+ * - Added "Sepia", "Grayscale" and "AI Enhance" features.
+ * - Added an image to video feature.
  */
 
 // ------------------------------
@@ -12,9 +15,8 @@
 import {
   Cloudinary,
   transformationStringFromObject
-} from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@1.20.0/+esm";
-import { fill } from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@1.20.0/actions/resize/+esm";
-
+} from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@1.21.0/+esm";
+import { fill } from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@1.21.0/actions/resize/+esm";
 
 // ------------------------------
 // Configuration
