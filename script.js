@@ -15,8 +15,10 @@
 import {
   Cloudinary,
   transformationStringFromObject
-} from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@1.21.0/+esm";
-import { fill } from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@1.21.0/actions/resize/+esm";
+} from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@latest/+esm";
+
+import { fill } from "https://cdn.jsdelivr.net/npm/@cloudinary/url-gen@latest/actions/resize/+esm";
+
 
 // ------------------------------
 // Configuration
