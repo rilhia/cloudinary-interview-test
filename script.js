@@ -90,9 +90,6 @@ function resetToggles() {
  */
 function buildAsset() {
 
-  // Identify frame dimensions required
-  const frame = state.square ? FRAME_SQUARE : FRAME_WIDE;
-
   // We intentionally use image delivery for both cases:
   // - When `video` is ON: we request immediately transform the asset to be mp4
   // - When `video` is OFF: we request the plain image public_id
@@ -103,12 +100,13 @@ function buildAsset() {
     asset.addTransformation("e_zoompan:from_(g_auto;zoom_3.2);du_10;fps_30");
   }
 
+  // Identify frame dimensions required
+  const frame = state.square ? FRAME_SQUARE : FRAME_WIDE;
   // Always size to the frame to keep the border stable and the buttons from moving
   asset.resize(fill().width(frame.w).height(frame.h));
 
   // Build transformation chain for image (order matters)
   const chain = [];
-
 
   // Effects: keep ordering explicit. If multiple are toggled, this appears to be the best order.
   if (state.enhance) chain.push({ effect: "enhance" });
