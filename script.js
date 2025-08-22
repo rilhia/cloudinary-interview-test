@@ -89,7 +89,7 @@ function toCloudinaryColor(value) {
 // ------------------------------
 /**
  * Creates either an image URL or a video URL, based on state.
- * - For "video", we request `${PUBLIC_ID}.mp4` and add a zoom-pan effect.
+ * - For "video", we request the asset and add a zoom-pan effect.
  * - For image, we apply selected transformations in a well-defined order.
  * Returns: { type: "image"|"video", url: string, width: number }
  */
