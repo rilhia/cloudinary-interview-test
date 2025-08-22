@@ -42,7 +42,7 @@ const cld = new Cloudinary({ cloud: { cloudName: CLOUD_NAME } });
 // Application state
 // ------------------------------
 // Boolean toggles control which transformations are applied.
-// `textContent` and `textColor` store the dialog selections for the overlay.
+// `textContent` and `textColour` store the dialog selections for the overlay.
 const state = {
   // toggles
   text: false,
@@ -55,7 +55,7 @@ const state = {
 
   // text overlay config
   textContent: "Hello World!",
-  textColor: "#ffffff"
+  textColour: "#ffffff"
 };
 
 
@@ -70,17 +70,17 @@ function setButtonActive(effect, on) {
   if (el) el.classList.toggle("active", !!on);
 }
 
-/** Reset all boolean toggles, keep the saved text/color values */
+/** Reset all boolean toggles, keep the saved text/colour values */
 function resetToggles() {
   Object.keys(state).forEach((k) => {
-    if (k === "textContent" || k === "textColor") return;
+    if (k === "textContent" || k === "textColour") return;
     state[k] = false;
   });
   document.querySelectorAll(".btn").forEach((b) => b.classList.remove("active"));
 }
 
-/** Convert a CSS hex color to Cloudinary's rgb:rrggbb format (or pass named colors through) */
-function toCloudinaryColor(value) {
+/** Convert a CSS hex colour to Cloudinary's rgb:rrggbb format (or pass named colours through) */
+function toCloudinaryColour(value) {
   if (value && value.startsWith("#")) return `rgb:${value.slice(1)}`;
   return value || "white";
 }
@@ -126,10 +126,10 @@ function buildAsset() {
   // Text overlay (applied at end so colours are not changed)
   if (state.text) {
     const encodedText  = encodeURIComponent(state.textContent);
-    const overlayColor = toCloudinaryColor(state.textColor);
+    const overlayColour = toCloudinaryColour(state.textColour);
 
     chain.push(
-      { overlay: `text:Arial_34_bold:${encodedText}`, color: overlayColor },
+      { overlay: `text:Arial_34_bold:${encodedText}`, color: overlayColour },
       { flags: "layer_apply", gravity: "south", y: 10 }
     );
   }
@@ -212,14 +212,14 @@ function renderAsset({ type, url, width }) {
 // Text overlay dialog (<dialog>)
 // ------------------------------
 /**
- * Opens a modal dialog to capture overlay text and color.
- * Returns either `{ text, color }` or `null` if canceled.
+ * Opens a modal dialog to capture overlay text and colour.
+ * Returns either `{ text, colour }` or `null` if canceled.
  */
 function openTextDialog(defaultText, defaultHex) {
   return new Promise((resolve) => {
     const dlg = $("#textDialog");
     const txt = $("#dlgText");
-    const col = $("#dlgColor");
+    const col = $("#dlgColour");
     const ok  = $("#dlgOK");
     const cancel = $("#dlgCancel");
 
@@ -231,7 +231,7 @@ function openTextDialog(defaultText, defaultHex) {
       : "#ffffff";
 
     // One-off listeners for this open/close cycle
-    ok.addEventListener("click", () => { dlg.close(); resolve({ text: txt.value.trim(), color: col.value }); }, { once: true });
+    ok.addEventListener("click", () => { dlg.close(); resolve({ text: txt.value.trim(), colour: col.value }); }, { once: true });
     cancel.addEventListener("click", () => { dlg.close(); resolve(null); }, { once: true });
     dlg.addEventListener("close", () => resolve(null), { once: true });
 
@@ -260,13 +260,13 @@ $(".btn-group").addEventListener("click", async (e) => {
 
   if (!effectKey) return;
 
-  // Special: when enabling Text, collect text + color first
+  // Special: when enabling Text, collect text + colour first
   if (effectKey === "text") {
     if (!state.text) {
-      const result = await openTextDialog(state.textContent, state.textColor);
+      const result = await openTextDialog(state.textContent, state.textColour);
       if (!result) return;                // user canceled
       if (result.text)  state.textContent = result.text;
-      if (result.color) state.textColor   = result.color;
+      if (result.colour) state.textColour   = result.colour;
     }
     state.text = !state.text;
     setButtonActive("text", state.text);
