@@ -51,7 +51,7 @@ const state = {
   enhance: false,
 
   // text overlay config
-  textContent: "Hello Cloudinary",
+  textContent: "Hello World!",
   textColor: "#ffffff"
 };
 
@@ -99,7 +99,7 @@ function buildAsset() {
   // We intentionally use image delivery for both cases:
   // - When `video` is ON: we request `${PUBLIC_ID}.mp4` and add e_zoompan (Cloudinary serves MP4)
   // - When `video` is OFF: we request the plain image public_id
-  const asset = state.video ? cld.image(`${PUBLIC_ID}.mp4`) : cld.image(PUBLIC_ID);
+  const asset = state.video ? cld.image(PUBLIC_ID).addTransformation("f_mp4") : cld.image(PUBLIC_ID);
 
   // Add a simple Ken Burns–style zoom/pan when showing video
   if (state.video) {
@@ -112,16 +112,6 @@ function buildAsset() {
   // Build transformation steps for image (order matters)
   const steps = [];
 
-  // Text overlay (applied near the end by design; tweak as you wish)
-  if (state.text) {
-    const encodedText  = encodeURIComponent(state.textContent || "Hello Cloudinary");
-    const overlayColor = toCloudinaryColor(state.textColor);
-
-    steps.push(
-      { overlay: `text:Arial_34_bold:${encodedText}`, color: overlayColor },
-      { flags: "layer_apply", gravity: "south", y: 10 }
-    );
-  }
 
   // Effects: keep ordering explicit. If multiple are toggled, we respect this order.
   // (You can reorder these lines to change precedence.)
@@ -129,6 +119,18 @@ function buildAsset() {
   if (state.toon)  steps.push({ effect: "cartoonify:20" });
   if (state.sepia) steps.push({ effect: "sepia" });     // often looks best after toon
   if (state.gray)  steps.push({ effect: "grayscale" });
+
+
+  // Text overlay (applied at end so colours are not changed)
+  if (state.text) {
+    const encodedText  = encodeURIComponent(state.textContent);
+    const overlayColor = toCloudinaryColor(state.textColor);
+
+    steps.push(
+      { overlay: `text:Arial_34_bold:${encodedText}`, color: overlayColor },
+      { flags: "layer_apply", gravity: "south", y: 10 }
+    );
+  }
 
   // Apply the accumulated steps as one transformation string (SDK-backed)
   if (steps.length) {
@@ -180,6 +182,7 @@ function renderAsset({ type, url, width }) {
         media.loop = true;
         media.muted = true;
         media.playsInline = true;
+        media.controls   = true; 
       } else {
         media.alt = "Cloudinary demo";
       }
@@ -219,7 +222,7 @@ function openTextDialog(defaultText, defaultHex) {
     const cancel = $("#dlgCancel");
 
     // Populate defaults
-    txt.value = defaultText || "Hello Cloudinary";
+    txt.value = defaultText;
     const isHex = (h) => /^#?[0-9a-f]{6}$/i.test(h.replace("#", ""));
     col.value = (defaultHex && isHex(defaultHex))
       ? (defaultHex.startsWith("#") ? defaultHex : `#${defaultHex}`)
