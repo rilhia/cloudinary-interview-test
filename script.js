@@ -79,13 +79,6 @@ function resetToggles() {
   document.querySelectorAll(".btn").forEach((b) => b.classList.remove("active"));
 }
 
-/** Convert a CSS hex colour to Cloudinary's rgb:rrggbb format (or pass named colours through) */
-function toCloudinaryColour(value) {
-  if (value && value.startsWith("#")) return value; //`rgb:${value.slice(1)}`;
-  return value || "white";
-}
-
-
 // ------------------------------
 // Build the asset to display
 // ------------------------------
@@ -126,7 +119,7 @@ function buildAsset() {
   // Text overlay (applied at end so colours are not changed)
   if (state.text) {
     const encodedText  = encodeURIComponent(state.textContent);
-    const overlayColour = toCloudinaryColour(state.textColour);
+    const overlayColour = state.textColour;
 
     chain.push(
       { overlay: `text:Arial_34_bold:${encodedText}`, color: overlayColour },
