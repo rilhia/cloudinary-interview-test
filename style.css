@@ -1,27 +1,3 @@
-#photoContainer {
-  width: 500px;       /* JS updates to 333px when square is on */
-  height: 333px;      /* stays constant */
-  margin: 20px auto;
-  border: 4px solid #333;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: width 0.3s ease; /* smooth grow/shrink */
-}
-
-#photo {
-  height: 100%;
-  width: auto;
-  display: block;
-  transition: opacity 0.2s ease;
-}
-
-#photo.hidden {
-  opacity: 0;   /* fades image only, border remains */
-}
-
-
 .btn-group {
   display: flex;
   justify-content: center; /* centers horizontally */
@@ -42,6 +18,28 @@
   color: white;
 }
 
+#photoContainer {
+  width: 500px;       
+  height: 333px;      
+  margin: 20px auto;
+  border: 4px solid #333;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease; /* smooth resize of container */
+}
+
+#photo {
+  height: 100%;
+  width: auto;
+  display: block;
+  transition: opacity 0.2s ease;
+}
+
+#photo.hidden {
+  opacity: 0;  
+}
 
 #textDialog .text-dialog {
   display: grid;
